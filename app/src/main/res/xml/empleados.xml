@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<empleados-empresa>
+    <empleado>
+        <id>0</id>
+        <nombre>José</nombre>
+        <apellido>Tomás</apellido>
+        <puesto>Utillero</puesto>
+        <edad>24</edad>
+        <salario>10142.01</salario>
+    </empleado>
+    <empleado>
+        <id>1</id>
+        <nombre>María</nombre>
+        <apellido>De la Calle</apellido>
+        <puesto>Secretaria</puesto>
+        <edad>56</edad>
+        <salario>4142.01</salario>
+    </empleado>
+    <empleado>
+        <id>2</id>
+        <nombre>Marina</nombre>
+        <apellido>Merchante</apellido>
+        <puesto>Capitán</puesto>
+        <edad>39</edad>
+        <salario>17194.91</salario>
+    </empleado>
+    <empleado>
+        <id>3</id>
+        <nombre>Juan José</nombre>
+        <apellido>Ríos</apellido>
+        <puesto>Arquitecto</puesto>
+        <edad>46</edad>
+        <salario>29322.00</salario>
+    </empleado>
+    <empleado>
+        <id>4</id>
+        <nombre>María José</nombre>
+        <apellido>Cabeza</apellido>
+        <puesto>Delineante</puesto>
+        <edad>35</edad>
+        <salario>19999.99</salario>
+    </empleado>
+    <empleado>
+        <id>5</id>
+        <nombre>Francisco</nombre>
+        <apellido>Peña</apellido>
+        <puesto>Programador</puesto>
+        <edad>18</edad>
+        <salario>12002.55</salario>
+    </empleado>
+</empleados-empresa>
