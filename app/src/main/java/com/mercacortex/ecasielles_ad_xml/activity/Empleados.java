@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mercacortex.ecasielles_ad_xml.R;
+import com.mercacortex.ecasielles_ad_xml.model.Empleado;
 import com.mercacortex.ecasielles_ad_xml.utils.Analisis;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -24,7 +25,7 @@ public class Empleados extends AppCompatActivity {
 
     ViewGroup parentLayout;
 
-    String[] contenido;
+    Empleado[] Empleados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,6 @@ public class Empleados extends AppCompatActivity {
         txvEmpleadosPuesto = (TextView) findViewById(R.id.txvPuesto);
         txvEmpleadosEdad = (TextView) findViewById(R.id.txvEdad);
         txvEmpleadosSalario = (TextView) findViewById(R.id.txvSalario);
-
-        contenido = new String[6];
 
         try {
             contenido = Analisis.analizarArchivoEmpleados(this);

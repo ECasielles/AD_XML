@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Xml;
 
 import com.mercacortex.ecasielles_ad_xml.R;
+import com.mercacortex.ecasielles_ad_xml.model.Empleado;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -48,10 +49,9 @@ public class Analisis {
         return cadena.toString();
     }
     public static String[] analizarArchivoEmpleados(Context c) throws XmlPullParserException, IOException, NumberFormatException {
-        boolean esNombre = false;
-        boolean esNota = false;
 
         StringBuilder cadena = new StringBuilder();
+        Empleado unEmpleado;
 
         Double
                 mediaEdad = 0.0d,
@@ -65,12 +65,12 @@ public class Analisis {
         int eventType = xrp.getEventType();
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
+            unEmpleado = new Empleado();
             switch (eventType) {
                 case XmlPullParser.START_TAG:
                     if(xrp.getName().equals("nombre"))
-                        esNombre = true;
+
                     if(xrp.getName().equals("nota")) {
-                        esNota = true;
                         for (int i = 0; i < xrp.getAttributeCount(); i++)
                             cadena.append(xrp.getAttributeName(i) + ":" + xrp.getAttributeValue(i) + "\n");
                     }
@@ -78,7 +78,13 @@ public class Analisis {
                 case XmlPullParser.TEXT:
                     // Añadido en clase
                     if (esNombre)
-                        cadena.append("Alumno: " + xrp.getText() + "\n");
+                        unEmpleado.setId(Integer.parseInt(xrp.getText());
+                        unEmpleado.setNombre(xrp.getText());
+                        unEmpleado.setApellido(xrp.getText());
+                        unEmpleado.setPuesto(xrp.getText());
+                        unEmpleado.setEdad(Integer.parseInt(xrp.getText());
+                        unEmpleado.setSalario(Float.parseFloat(xrp.getText()));
+
                     if (esNota) {
                         cadena.append("Nota: " + xrp.getText() + "\n");
                         mediaEdad += Double.parseDouble(xrp.getText());
@@ -101,110 +107,6 @@ public class Analisis {
         xrp.close();
 
         return cadena.toString();
-    }
-    public static String analizarRSS(File file) throws NullPointerException, XmlPullParserException, IOException {
-        boolean dentroItem = false;
-        //boolean dentroTitle = false;
-        StringBuilder builder = new StringBuilder();
-        XmlPullParser xpp = Xml.newPullParser();
-        xpp.setInput(new FileReader(file));
-        int eventType = xpp.getEventType();
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            switch (eventType) {
-                case XmlPullParser.START_TAG:
-                    if (xpp.getName().equals("item"))
-                        dentroItem = true;
-                    if (xpp.getName().equals("title") && dentroItem)
-                        //dentroTitle = true;
-                        builder.append(xpp.nextText() + "\n");
-                    break;
-                /*
-                case XmlPullParser.TEXT:
-                    if (dentroTitle)
-                        builder.append(xpp.getText() + "\n");
-                    break;
-                */
-                case XmlPullParser.END_TAG:
-                    //if (xpp.getName().equals("title") && dentroItem)
-                        //dentroTitle = false;
-                    if (xpp.getName().equals("item"))
-                        dentroItem = false;
-                    break;
-            }
-            eventType = xpp.next();
-        }
-        return builder.toString();
-    }
-    public static ArrayList<Noticia> analizarNoticias(File file) throws XmlPullParserException, IOException {
-        int eventType;
-        ArrayList<Noticia> noticias = null;
-        Noticia actual = null;
-        boolean dentroItem = false;
-
-        XmlPullParser xpp = Xml.newPullParser();
-        xpp.setInput(new FileReader(file));
-        eventType=xpp.getEventType();
-
-        while (eventType!=XmlPullParser.END_DOCUMENT){
-            switch (eventType) {
-                case XmlPullParser.START_DOCUMENT:
-                    noticias = new ArrayList<>();
-                    break;
-
-                case XmlPullParser.START_TAG:
-                    if (xpp.getName().equalsIgnoreCase("item")) {
-                        dentroItem = true;
-                        actual = new Noticia();
-                    }
-                    if(dentroItem)
-                        if (xpp.getName().equalsIgnoreCase("title"))
-                            actual.setTitle(xpp.nextText());
-                        else if (xpp.getName().equalsIgnoreCase("link"))
-                            actual.setLink(xpp.nextText());
-                        else if (xpp.getName().equalsIgnoreCase("description"))
-                            actual.setDescription(xpp.nextText());
-                        else if (xpp.getName().equalsIgnoreCase("pubdate"))
-                            actual.setPubDate(xpp.nextText());
-                    break;
-
-                case XmlPullParser.END_TAG:
-                    if (xpp.getName().equalsIgnoreCase("item")) {
-                        dentroItem = false;
-                        noticias.add(actual);
-                    }
-                    break;
-            }
-            eventType = xpp.next();
-        }
-        //devolver el array de noticias
-        return noticias;
-    }
-    public static void crearXML(ArrayList<Noticia> noticias, String fichero) throws IOException {
-        FileOutputStream fout;
-        fout = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fichero));
-        XmlSerializer serializer = Xml.newSerializer();
-        serializer.setOutput(fout, "UTF-8");
-        serializer.startDocument(null, true);
-        serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true); //poner tabulación
-        serializer.startTag(null, "titulares");
-        for (int i = 0; i < noticias.size(); i++) {
-            serializer.startTag(null, "item");
-            serializer.startTag(null, "titulo");
-            serializer.attribute(null, "fecha", noticias.get(i).getPubDate().toString());
-            serializer.text(noticias.get(i).getTitle().toString());
-            serializer.endTag(null, "titulo");
-            serializer.startTag(null, "enlace");
-            serializer.text(noticias.get(i).getLink().toString());
-            serializer.endTag(null, "enlace");
-            serializer.startTag(null, "descripcion");
-            serializer.text(noticias.get(i).getDescription().toString());
-            serializer.endTag(null, "descripcion");
-            serializer.endTag(null, "item");
-        }
-        serializer.endTag(null, "titulares");
-        serializer.endDocument();
-        serializer.flush();
-        fout.close();
     }
 }
 
