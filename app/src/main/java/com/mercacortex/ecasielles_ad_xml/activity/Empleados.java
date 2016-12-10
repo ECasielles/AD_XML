@@ -2,16 +2,17 @@ package com.mercacortex.ecasielles_ad_xml.activity;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.mercacortex.ecasielles_ad_xml.R;
-import com.mercacortex.ecasielles_ad_xml.adapter.EmpleadoAdapter;
+import com.mercacortex.ecasielles_ad_xml.adapter.EmpleadoAdapterRecycler;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -19,10 +20,11 @@ import java.io.IOException;
 
 public class Empleados extends AppCompatActivity {
 
-    ListView listView;
-    Button btnCalcular;
+    RecyclerView recyclerView;
+    FloatingActionButton fabCalcular;
     ViewGroup parentLayout;
-    EmpleadoAdapter adapter;
+    EmpleadoAdapterRecycler adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +33,28 @@ public class Empleados extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         try {
-            btnCalcular = (Button)findViewById(R.id.btnCalcular);
+            fabCalcular = (FloatingActionButton) findViewById(R.id.fabCalcular);
 
-            adapter = new EmpleadoAdapter(this);
-            listView = (ListView)findViewById(R.id.listViewEmpleados);
-            listView.setAdapter(adapter);
+            adapter = new EmpleadoAdapterRecycler(this);
+            recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEmpleados);
 
-            btnCalcular.setOnClickListener(new View.OnClickListener() {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(adapter);
+
+            fabCalcular.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
-                        builder.setMessage("La edad media es: " + String.valueOf(adapter.mediaEdad()) + "\n" +
+                        builder.setMessage(
+                                "La edad media es: " + String.valueOf(adapter.mediaEdad()) + "\n" +
+                                "La edad máxima es: " + String.valueOf(adapter.maxEdad()) + "\n" +
+                                "La edad mínima es: " + String.valueOf(adapter.minEdad()) + "\n" +
                                 "El salario medio es: " + String.valueOf(adapter.mediaSalario()) + "\n" +
                                 "El salario máximo es: " + String.valueOf(adapter.maxSalario()) + "\n" +
-                                "El salario mínimo es: " + String.valueOf(adapter.minSalario()));
+                                "El salario mínimo es: " + String.valueOf(adapter.minSalario())
+                        );
+                        builder.show();
                     } catch (Exception e) {
                         Snackbar.make(parentLayout, "Error: " + e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
                     }

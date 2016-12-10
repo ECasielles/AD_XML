@@ -1,4 +1,4 @@
-package com.mercacortex.ecasielles_ad_xml;
+package com.mercacortex.ecasielles_ad_xml.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.mercacortex.ecasielles_ad_xml.activity.Bizi;
-import com.mercacortex.ecasielles_ad_xml.activity.Empleados;
-import com.mercacortex.ecasielles_ad_xml.activity.NoticiasRSS;
-import com.mercacortex.ecasielles_ad_xml.activity.Tiempo;
+import com.mercacortex.ecasielles_ad_xml.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    >
 
     <TextView
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvId"
+        android:id="@+id/txvEmpleadoId"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
     <TextView
+        android:layout_below="@id/txvEmpleadoId"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvNombre"
+        android:id="@+id/txvEmpleadoNombre"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
     <TextView
+        android:layout_below="@id/txvEmpleadoNombre"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvApellido"
+        android:id="@+id/txvEmpleadoApellido"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
     <TextView
+        android:layout_below="@id/txvEmpleadoApellido"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvPuesto"
+        android:id="@+id/txvEmpleadoPuesto"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
     <TextView
+        android:layout_below="@id/txvEmpleadoPuesto"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvEdad"
+        android:id="@+id/txvEmpleadoEdad"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
     <TextView
+        android:layout_below="@id/txvEmpleadoEdad"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txvSalario"
+        android:id="@+id/txvEmpleadoSalario"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
 
