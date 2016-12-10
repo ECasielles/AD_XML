@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mercacortex.ecasielles_ad_xml.activity.Empleados">
 
+<<<<<<< HEAD
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -25,5 +26,43 @@
         android:text="Calcular valores"
         android:id="@+id/btnCalcular"
         />
+=======
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvId"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvNombre"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvApellido"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvPuesto"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvEdad"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvSalario"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+>>>>>>> origin/master
 
 </RelativeLayout>
