@@ -1,5 +1,6 @@
 package com.mercacortex.ecasielles_ad_xml.activity;
 
+
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -22,7 +23,6 @@ public class Empleados extends AppCompatActivity {
     Button btnCalcular;
     ViewGroup parentLayout;
     EmpleadoAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,6 @@ public class Empleados extends AppCompatActivity {
                     }
                 }
             });
-
         } catch (XmlPullParserException e) {
             Snackbar.make(parentLayout, "Error: Documento XML mal formado.", Snackbar.LENGTH_LONG).show();
         } catch (IOException e) {
