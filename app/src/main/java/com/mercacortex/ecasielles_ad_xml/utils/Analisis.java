@@ -6,6 +6,7 @@ import android.util.Xml;
 
 import com.mercacortex.ecasielles_ad_xml.R;
 import com.mercacortex.ecasielles_ad_xml.model.Empleado;
+import com.mercacortex.ecasielles_ad_xml.model.Estacion;
 import com.mercacortex.ecasielles_ad_xml.model.Prediccion;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -89,6 +90,67 @@ public class Analisis {
             } else if(eventType == XmlPullParser.END_TAG) {
                 if(xpp.getName().equals("dia"))
                      predicciones.add(prediccion);
+                else if (xpp.getName().equals("temperatura"))
+                    leerTemperatura = false;
+            }
+            eventType = xpp.next();
+        }
+        return predicciones;
+    }
+
+    public static int analizarEstacionesDisponibles(File file) throws XmlPullParserException, IOException, NumberFormatException {
+
+        XmlPullParser xpp = Xml.newPullParser();
+        xpp.setInput(new FileReader(file));
+        int eventType = xpp.getEventType();
+
+        int resultado = 0;
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if(eventType == XmlPullParser.START_TAG)
+                if (xpp.getName().equals("totalCount"))
+                    resultado = Integer.parseInt(xpp.nextText());
+        }
+
+        return resultado;
+    }
+
+    public static ArrayList<Estacion> analizarEstacionesBizi(File file, int nEstaciones) throws XmlPullParserException, IOException, NumberFormatException {
+        ArrayList<Estacion> estaciones = new ArrayList<>();
+        Prediccion estacion = null;
+
+        XmlPullParser xpp = Xml.newPullParser();
+        xpp.setInput(new FileReader(file));
+        int eventType = xpp.getEventType();
+        boolean leerTemperatura = false;
+
+        while (eventType != XmlPullParser.END_DOCUMENT && predicciones.size() < 2) {
+            if(eventType == XmlPullParser.START_TAG) {
+                if (xpp.getName().equals("dia")) {
+                    prediccion = new Prediccion();
+                    prediccion.setDay(xpp.getAttributeValue(0));
+                }
+                //Comprueba que tenga nombre correcto, 2 atributos y texto no vacíos
+                if (xpp.getName().equals("estado_cielo") && xpp.getAttributeCount() > 1 && !xpp.isEmptyElementTag()) {
+                    if(!xpp.getAttributeValue(1).equals("") && (xpp.getAttributeValue(0).equals("00-06") ||
+                            xpp.getAttributeValue(0).equals("06-12") ||
+                            xpp.getAttributeValue(0).equals("12-18") ||
+                            xpp.getAttributeValue(0).equals("18-24")))
+                        prediccion.addEstadoCielo(
+                                xpp.getAttributeValue(0),
+                                xpp.getAttributeValue(1),
+                                xpp.nextText()
+                        );
+                }
+                if (xpp.getName().equals("temperatura"))
+                    leerTemperatura = true;
+                if (xpp.getName().equals("maxima") && leerTemperatura)
+                    prediccion.setTempMax(xpp.nextText());
+                if (xpp.getName().equals("minima") && leerTemperatura)
+                    prediccion.setTempMin(xpp.nextText());
+            } else if(eventType == XmlPullParser.END_TAG) {
+                if(xpp.getName().equals("dia"))
+                    predicciones.add(prediccion);
                 else if (xpp.getName().equals("temperatura"))
                     leerTemperatura = false;
             }

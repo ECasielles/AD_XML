@@ -154,7 +154,7 @@ public class Tiempo extends AppCompatActivity {
             txvPeriodo.setText(estado.getPeriodo());
             txvPeriodo.setVisibility(View.VISIBLE);
             Picasso.with(this)
-                    .load(DIRECCION_IMAGENES + codImagen + ".png").error(R.drawable.error_soleado)
+                    .load(DIRECCION_IMAGENES + codImagen + "_g.png").error(R.drawable.error_soleado)
                     .into(imgView);
         }
 
