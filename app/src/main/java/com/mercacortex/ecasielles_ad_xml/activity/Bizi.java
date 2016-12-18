@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.mercacortex.ecasielles_ad_xml.R;
+import com.mercacortex.ecasielles_ad_xml.model.Estacion;
 import com.mercacortex.ecasielles_ad_xml.utils.Analisis;
 import com.mercacortex.ecasielles_ad_xml.utils.RestClient;
 
@@ -16,34 +17,29 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class Bizi extends AppCompatActivity {
 
-    public static final String DIRECCION_N_ESTACIONES = "http://www.zaragoza.es/api/recurso/urbanismo-infraestructuras/estacion-bicicleta?results_only=false&start=0&rows=0";
-    public static final String TEMPORAL_N_ESTACIONES = "temporalNEstaciones.txt";
+    public static final String N_ESTACIONES = "http://www.zaragoza.es/api/recurso/urbanismo-infraestructuras/estacion-bicicleta.xml?rf=html&results_only=false&srsname=utm30n&start=0&rows=129";
+    public static final String TEMPORAL= "temporal.txt";
     private ViewGroup parentLayout;
-    private int nEstaciones;
+    private ArrayList<Estacion> estaciones;
+
+    private boolean aux = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bizi);
         parentLayout = (ViewGroup) findViewById(R.id.activity_bizi);
-
-        descarga(DIRECCION_N_ESTACIONES, TEMPORAL_N_ESTACIONES);
-
-        //TODO:
-        //  Encontrar la manera de leer el número de estaciones
-        //  y luego leer el archivo con id + title
-        //  la lista tiene un onClick que hace conexion,
-        //  guarda en archivo, lee y lo muestra
-
+        descarga(N_ESTACIONES, TEMPORAL);
     }
 
 
-    private void descarga(String direccion, String temporal) {
+    private void descarga(final String direccion, String temporal) {
         final ProgressDialog progreso = new ProgressDialog(this);
         File miFichero = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), temporal);
         RestClient.get(direccion, new FileAsyncHttpResponseHandler(miFichero) {
@@ -57,7 +53,8 @@ public class Bizi extends AppCompatActivity {
                 progreso.dismiss();
                 Snackbar.make(parentLayout, "Fichero descargado OK\n" + file.getPath(), Snackbar.LENGTH_LONG).show();
                 try {
-                    nEstaciones = Analisis.analizarEstacionesDisponibles(file);
+                    estaciones = Analisis.analizarEstacionesBizi(file);
+                    Snackbar.make(parentLayout, estaciones.get(1).getCalle(), Snackbar.LENGTH_LONG).show();
                 } catch (XmlPullParserException e) {
                     Snackbar.make(parentLayout, "Excepcion XML: " + e.getMessage(), Snackbar.LENGTH_LONG).show();
                 } catch (IOException e) {
@@ -74,6 +71,4 @@ public class Bizi extends AppCompatActivity {
             }
         });
     }
-
-
 }

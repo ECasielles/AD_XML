@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Analisis {
@@ -98,65 +99,30 @@ public class Analisis {
         return predicciones;
     }
 
-    public static int analizarEstacionesDisponibles(File file) throws XmlPullParserException, IOException, NumberFormatException {
+    public static ArrayList<Estacion> analizarEstacionesBizi(File file) throws XmlPullParserException, IOException, NumberFormatException {
+        ArrayList<Estacion> estaciones = new ArrayList<>();
+        Estacion estacion = null;
 
         XmlPullParser xpp = Xml.newPullParser();
         xpp.setInput(new FileReader(file));
         int eventType = xpp.getEventType();
-
-        int resultado = 0;
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
-            if(eventType == XmlPullParser.START_TAG)
-                if (xpp.getName().equals("totalCount"))
-                    resultado = Integer.parseInt(xpp.nextText());
-        }
-
-        return resultado;
-    }
-
-    public static ArrayList<Estacion> analizarEstacionesBizi(File file, int nEstaciones) throws XmlPullParserException, IOException, NumberFormatException {
-        ArrayList<Estacion> estaciones = new ArrayList<>();
-        Prediccion estacion = null;
-
-        XmlPullParser xpp = Xml.newPullParser();
-        xpp.setInput(new FileReader(file));
-        int eventType = xpp.getEventType();
-        boolean leerTemperatura = false;
-
-        while (eventType != XmlPullParser.END_DOCUMENT && predicciones.size() < 2) {
             if(eventType == XmlPullParser.START_TAG) {
-                if (xpp.getName().equals("dia")) {
-                    prediccion = new Prediccion();
-                    prediccion.setDay(xpp.getAttributeValue(0));
-                }
-                //Comprueba que tenga nombre correcto, 2 atributos y texto no vacíos
-                if (xpp.getName().equals("estado_cielo") && xpp.getAttributeCount() > 1 && !xpp.isEmptyElementTag()) {
-                    if(!xpp.getAttributeValue(1).equals("") && (xpp.getAttributeValue(0).equals("00-06") ||
-                            xpp.getAttributeValue(0).equals("06-12") ||
-                            xpp.getAttributeValue(0).equals("12-18") ||
-                            xpp.getAttributeValue(0).equals("18-24")))
-                        prediccion.addEstadoCielo(
-                                xpp.getAttributeValue(0),
-                                xpp.getAttributeValue(1),
-                                xpp.nextText()
-                        );
-                }
-                if (xpp.getName().equals("temperatura"))
-                    leerTemperatura = true;
-                if (xpp.getName().equals("maxima") && leerTemperatura)
-                    prediccion.setTempMax(xpp.nextText());
-                if (xpp.getName().equals("minima") && leerTemperatura)
-                    prediccion.setTempMin(xpp.nextText());
+                if (xpp.getName().equals("estacion"))
+                    estacion = new Estacion();
+                if (xpp.getName().equals("id"))
+                    estacion.setId(Integer.parseInt(xpp.nextText()));
+                if (xpp.getName().equals("title"))
+                    estacion.setCalle(xpp.nextText());
             } else if(eventType == XmlPullParser.END_TAG) {
-                if(xpp.getName().equals("dia"))
-                    predicciones.add(prediccion);
-                else if (xpp.getName().equals("temperatura"))
-                    leerTemperatura = false;
+                if(xpp.getName().equals("estacion"))
+                    estaciones.add(estacion);
             }
             eventType = xpp.next();
         }
-        return predicciones;
+        Collections.sort(estaciones, Estacion.ID_COMPARATOR);
+        return estaciones;
     }
 }
 
