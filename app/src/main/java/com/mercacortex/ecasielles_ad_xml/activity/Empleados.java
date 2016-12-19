@@ -37,8 +37,9 @@ public class Empleados extends AppCompatActivity {
 
             adapter = new EmpleadoAdapterRecycler(this);
             recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEmpleados);
-
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
 

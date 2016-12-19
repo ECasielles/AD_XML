@@ -1,6 +1,7 @@
 package com.mercacortex.ecasielles_ad_xml.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.util.Xml;
 
@@ -123,6 +124,43 @@ public class Analisis {
         }
         Collections.sort(estaciones, Estacion.ID_COMPARATOR);
         return estaciones;
+    }
+
+    public static Estacion analizarEstacion(File file, int idEstacion) throws XmlPullParserException, IOException, NumberFormatException {
+        Estacion estacion = null;
+        String[] coordenadas = null;
+
+        XmlPullParser xpp = Xml.newPullParser();
+        xpp.setInput(new FileReader(file));
+        int eventType = xpp.getEventType();
+
+        boolean leida = false;
+
+        while (eventType != XmlPullParser.END_DOCUMENT && !leida) {
+            if(eventType == XmlPullParser.START_TAG) {
+                if (xpp.getName().equals("id") && idEstacion == Integer.valueOf(xpp.nextText())) {
+                    estacion = new Estacion();
+                    estacion.setId(idEstacion);
+                }
+                if (xpp.getName().equals("estado"))
+                    estacion.setEstado(xpp.nextText());
+                if (xpp.getName().equals("bicisDisponibles"))
+                    estacion.setBicisDisponibles(Integer.valueOf(xpp.nextText()));
+                if (xpp.getName().equals("anclajesDisponibles"))
+                    estacion.setAnclajesDisponibles(Integer.valueOf(xpp.nextText()));
+                if (xpp.getName().equals("lastUpdated"))
+                    estacion.setFechaUltimaModif(xpp.nextText());
+                if (xpp.getName().equals("coordinates")) {
+                    coordenadas = xpp.nextText().split(",");
+                    estacion.setLongitud(Double.parseDouble(coordenadas[0]));
+                    estacion.setLatitud(Double.parseDouble(coordenadas[1]));
+                    leida = true;
+                }
+            }
+            eventType = xpp.next();
+        }
+
+        return estacion;
     }
 }
 
