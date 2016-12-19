@@ -152,8 +152,8 @@ public class Analisis {
                     estacion.setFechaUltimaModif(xpp.nextText());
                 if (xpp.getName().equals("coordinates")) {
                     coordenadas = xpp.nextText().split(",");
-                    estacion.setLongitud(Double.parseDouble(coordenadas[0]));
-                    estacion.setLatitud(Double.parseDouble(coordenadas[1]));
+                    estacion.setLatitud(Double.parseDouble(coordenadas[0]));
+                    estacion.setLongitud(Double.parseDouble(coordenadas[1]));
                     leida = true;
                 }
             }

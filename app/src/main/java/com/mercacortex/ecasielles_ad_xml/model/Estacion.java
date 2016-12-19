@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class Estacion implements Comparable, Serializable {
     int id, bicisDisponibles, anclajesDisponibles;
     String calle, estado, fechaUltimaModif;
-    double longitud, latitud;
+    double latitud, longitud;
 
     public static final Comparator<Estacion> ID_COMPARATOR = new Comparator() {
         @Override
@@ -28,10 +28,10 @@ public class Estacion implements Comparable, Serializable {
     public void setEstado(String estado) { this.estado = estado; }
     public String getFechaUltimaModif() { return fechaUltimaModif; }
     public void setFechaUltimaModif(String fechaUltimaModif) { this.fechaUltimaModif = fechaUltimaModif; }
-    public double getLongitud() { return longitud; }
-    public void setLongitud(double longitud) { this.longitud = longitud; }
     public double getLatitud() { return latitud; }
     public void setLatitud(double latitud) { this.latitud = latitud; }
+    public double getLongitud() { return longitud; }
+    public void setLongitud(double longitud) { this.longitud = longitud; }
 
     @Override
     public int compareTo(Object o) {
